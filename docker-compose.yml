@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+
+  config-generator:
+    build: .
+    command: generate-config
+    volumes:
+      - /haproxy_config/
+    stdin_open: true
+    tty: true
+
+  haproxy:
+    build: .
+    command: haproxy
+    volumes_from:
+      - config-generator
+    ports:
+      - 80:80
+      - 443:443
+      - 81:81
+    stdin_open: true
+    tty: true
